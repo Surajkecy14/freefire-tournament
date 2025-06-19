@@ -31,7 +31,7 @@ router.post("/create", async (req, res) => {
     res.status(201).json({ message: "User created successfully!" });
   } catch (error) {
     console.error("Error creating user:", error);
-    res.status(500).json({ message: "Internal server error!" });
+    res.status(500).json({ message: "i am hitted but i cant work suraj" });
   }
 });
 
