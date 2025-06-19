@@ -1,28 +1,39 @@
 require('dotenv').config();
 const express = require('express');
-const app = express();
-const port = 5000;
 const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
 
+const app = express();
+const port = process.env.PORT || 5000;
+
+// Middleware
 app.use(cookieParser());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URL)
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error('MongoDB connection error:', err));
-
 app.use(cors({
-  origin: process.env.FRONTEND_URL, // or your frontend URL
+  origin: process.env.FRONTEND_URL, 
   credentials: true,
 }));
 
+// Routes
 app.use('/auth', require('./routes/auth'));
 app.use('/user', require('./routes/profile'));
-app.use("/admin", require("./routes/admin"));
-app.use("/tournament", require("./routes/tournament"));
+app.use('/admin', require('./routes/admin'));
+app.use('/tournament', require('./routes/tournament'));
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+// Connect to MongoDB and Start Server
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log("✅ MongoDB connected");
+
+  app.listen(port, () => {
+    console.log(`🚀 Server running on http://localhost:${port}`);
+  });
+})
+.catch((err) => {
+  console.error("❌ MongoDB connection error:", err);
 });
