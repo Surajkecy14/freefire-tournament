@@ -6,10 +6,8 @@ const API_URL = process.env.REACT_APP_API_URL;
 const Tournament = () => {
   const [tournaments, setTournaments] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(false);
-
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [selectedTournament, setSelectedTournament] = useState(null);
   const [esewaTxId, setEsewaTxId] = useState("");
@@ -33,7 +31,9 @@ const Tournament = () => {
   const fetchTournaments = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API_URL}/admin/match/all`,{withCredentials:true});
+      const res = await axios.get(`${API_URL}/admin/match/all`, {
+        withCredentials: true,
+      });
       setTournaments(res.data);
     } catch (error) {
       console.error("Error fetching tournaments:", error);
@@ -111,11 +111,6 @@ const Tournament = () => {
     })
     .sort((a, b) => new Date(a.time) - new Date(b.time));
 
-  tournaments.filter((t) => {
-    const time = new Date(t.time);
-    return !isNaN(time) && isSameDay(time, today);
-  });
-
   return (
     <div
       className="container mt-5 p-4 rounded shadow-lg"
@@ -153,7 +148,9 @@ const Tournament = () => {
                 <p className="card-text mb-1">
                   🕒 Time: {new Date(t.time).toLocaleString()}
                 </p>
-                <p className="card-text mb-1">💸 Entry Fee: Rs. {t.entryFee}</p>
+                <p className="card-text mb-1">
+                  💸 Entry Fee: Rs. {t.entryFee}
+                </p>
                 <p className="card-text mb-1">🏆 Prize: Rs. {t.prize}</p>
                 <p className="card-text mb-3">
                   👥Slots Filled: {t.joinedSlots}/{t.totalSlots}
@@ -192,8 +189,7 @@ const Tournament = () => {
               </p>
 
               <p>
-                💸 Pay Rs. {selectedTournament.entryFee} to eSewa:{" "}
-                <strong>9862963770</strong>{" "}
+                💸 Pay Rs. {selectedTournament.entryFee} to eSewa: <strong>9862963770</strong>{" "}
                 <button
                   className="btn btn-sm btn-outline-secondary ms-2"
                   onClick={handleCopyEsewa}
