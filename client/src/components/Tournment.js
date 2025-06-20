@@ -48,7 +48,7 @@ const Tournament = () => {
   }, []);
 
   const handleCopyEsewa = () => {
-    navigator.clipboard.writeText("9767271161");
+    navigator.clipboard.writeText("9862963770");
     alert("eSewa number copied to clipboard!");
   };
 
