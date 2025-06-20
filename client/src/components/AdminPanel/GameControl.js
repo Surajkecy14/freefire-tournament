@@ -54,14 +54,27 @@ const GameControl = () => {
   };
 
   const handleSave = async () => {
-    try {
-      await axios.post(`${API_URL}/admin/match/update`, matches[selectedType],{withCredentials:true});
-      alert(`✅ ${selectedType} match saved successfully`);
-    } catch (err) {
-      console.error("Save error", err);
-      alert("❌ Failed to save match");
+  try {
+    const matchToSave = { ...matches[selectedType] };
+
+    // Convert datetime-local string to UTC ISO format
+    if (matchToSave.time) {
+      const localDate = new Date(matchToSave.time);
+      const utcTime = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
+      matchToSave.time = utcTime.toISOString(); // Save in UTC correctly
     }
-  };
+
+    await axios.post(`${API_URL}/admin/match/update`, matchToSave, {
+      withCredentials: true,
+    });
+
+    alert(`✅ ${selectedType} match saved successfully`);
+  } catch (err) {
+    console.error("Save error", err);
+    alert("❌ Failed to save match");
+  }
+};
+
 
   if (loading) return <p>Loading matches...</p>;
 
