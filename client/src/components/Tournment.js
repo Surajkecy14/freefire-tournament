@@ -193,7 +193,7 @@ const Tournament = () => {
 
               <p>
                 💸 Pay Rs. {selectedTournament.entryFee} to eSewa:{" "}
-                <strong>9767271161</strong>{" "}
+                <strong>9862963770</strong>{" "}
                 <button
                   className="btn btn-sm btn-outline-secondary ms-2"
                   onClick={handleCopyEsewa}
